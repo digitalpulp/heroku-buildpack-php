@@ -79,7 +79,7 @@ newrelic.appname=REPLACE_NEW_RELIC_APP_NAME
 newrelic.license=REPLACE_NEW_RELIC_LICENSE_KEY
 newrelic.daemon.pidfile=/app/newrelic/newrelic-daemon.pid
 newrelic.daemon.logfile=/app/newrelic/newrelic-daemon.log
-newrelic.ssl=true
+newrelic.daemon.ssl=true
 EOF
 
 cat >>newrelic/newrelic.cfg <<EOF
