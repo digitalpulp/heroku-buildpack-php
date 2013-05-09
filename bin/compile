@@ -64,28 +64,21 @@ curl --silent --max-time 60 --location "${NEWRELIC_URL}" | tar xz
 #if [ -f /app/newrelic/NEWRELIC_VERSION ]; then
 
 # link /app/newrelic/x64/newrelic-20090626.so
-	MODULEDIR=/app/php/ext
+	MODULEDIR=php/ext
 	ARCH=x64
 	PHPAPI=20090626
 	PHPZTS=""
 	#rm -f $MODULEDIR/newrelic.so
-	#ln -s /app/newrelic/x64/newrelic-${PHPAPI}${PHPZTS}.so ${MODULEDIR}/newrelic.so
-	#ln -s -f -T /app/newrelic/x64/newrelic-20090626.so /app/php/ext/newrelic.so
-	echo PWD: `pwd`
-    echo *************************
-	find /app/newrelic/x64
-    echo *************************
-    echo *************************
-	find /app/php
-    echo *************************
+	mv newrelic/x64/newrelic-${PHPAPI}${PHPZTS}.so ${MODULEDIR}/newrelic.so
+	#ln -s -f -T /app/newrelic/x64/newrelic-20090626.so php/ext/newrelic.so
 
-cat >>/app/www/00_newrelic_default.ini <<EOF
+cat >>php/php.ini <<EOF
 extension=newrelic.so
 newrelic.license="${NEW_RELIC_LICENSE_KEY}"
 newrelic.appname="${NEW_RELIC_APP_NAME}"
 EOF
 
-cat >>/app/newrelic/newrelic.cfg <<EOF
+cat >>newrelic/newrelic.cfg <<EOF
 pidfile=/app/newrelic/newrelic-daemon.pid
 logfile=/app/newrelic/newrelic-daemon.log
 ssl=true
