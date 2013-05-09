@@ -77,8 +77,8 @@ cat >>php/php.ini <<EOF
 extension=newrelic.so
 newrelic.appname=REPLACE_NEW_RELIC_APP_NAME
 newrelic.license=REPLACE_NEW_RELIC_LICENSE_KEY
-newrelic.pidfile=/app/newrelic/newrelic-daemon.pid
-newrelic.logfile=/app/newrelic/newrelic-daemon.log
+newrelic.daemon.pidfile=/app/newrelic/newrelic-daemon.pid
+newrelic.daemon.logfile=/app/newrelic/newrelic-daemon.log
 newrelic.ssl=true
 EOF
 
