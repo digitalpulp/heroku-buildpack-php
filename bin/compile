@@ -77,6 +77,9 @@ cat >>php/php.ini <<EOF
 extension=newrelic.so
 newrelic.appname=REPLACE_NEW_RELIC_APP_NAME
 newrelic.license=REPLACE_NEW_RELIC_LICENSE_KEY
+newrelic.pidfile=/app/newrelic/newrelic-daemon.pid
+newrelic.logfile=/app/newrelic/newrelic-daemon.log
+newrelic.ssl=true
 EOF
 
 cat >>newrelic/newrelic.cfg <<EOF
@@ -119,7 +122,7 @@ if [ "\${NEW_RELIC_LICENSE_KEY}" -a -x "/app/bin/newrelic-license" ]; then
 	/app/bin/newrelic-license
 fi
 
-/app/bin/newrelic-daemon -c /app/newrelic/newrelic.cfg -d error
+##/app/bin/newrelic-daemon -c /app/newrelic/newrelic.cfg -d error
 
 echo "Launching apache"
 exec /app/apache/bin/httpd -DNO_DETACH
