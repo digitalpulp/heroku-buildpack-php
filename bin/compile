@@ -12,6 +12,8 @@ PHP_PATH="php"
 
 NEWRELIC_VERSION=3.2.5.147
 NEWRELIC_FILE="newrelic-${NEWRELIC_VERSION}-heroku.tar.gz"
+NEW_RELIC_LICENSE_KEY=$(echo $NEW_RELIC_LICENSE_KEY)
+NEW_RELIC_APP_NAME=$(echo $NEW_RELIC_APP_NAME)
 
 S3_BUCKET=dp-heroku
 S3_URL="https://s3.amazonaws.com/${S3_BUCKET}"
@@ -71,9 +73,13 @@ curl --silent --max-time 60 --location "${NEWRELIC_URL}" | tar xz
 	mv newrelic/x64/newrelic-${PHPAPI}${PHPZTS}.so ${MODULEDIR}/newrelic.so
 	#ln -s -f -T /app/newrelic/x64/newrelic-20090626.so php/ext/newrelic.so
 
+
+echo ${NEW_RELIC_LICENSE_KEY}
 cat >>php/php.ini <<EOF
 #load New Relic
 extension=newrelic.so
+newrelic.appname=${NEW_RELIC_APP_NAME}
+newrelic.license=${NEW_RELIC_LICENSE_KEY}
 EOF
 
 cat >>newrelic/newrelic.cfg <<EOF
