@@ -84,8 +84,6 @@ logfile=/app/newrelic/newrelic-daemon.log
 ssl=true
 EOF
 
-/app/bin/newrelic-daemon -c /app/newrelic/newrelic.cfg -d error
-
 #	sed -i "s|REPLACE_WITH_REAL_KEY|${NEW_RELIC_LICENSE_KEY}|g" /app/www/*newrelic*.ini
 	# Deploy agent
 #	cp -f /app/local/newrelic/agent/x64/newrelic-`/app/vendor/php/bin/phpize --version | grep "Zend Module Api No" | tr -d ' ' | cut -f 2 -d ':'`.so `/app/vendor/php/bin/php-config --extension-dir`/newrelic.so
@@ -106,6 +104,7 @@ tail -F /app/apache/logs/error_log &
 tail -F /app/apache/logs/access_log &
 export LD_LIBRARY_PATH=/app/php/ext
 export PHP_INI_SCAN_DIR=/app/www
+/app/bin/newrelic-daemon -c /app/newrelic/newrelic.cfg -d error
 echo "Launching apache"
 exec /app/apache/bin/httpd -DNO_DETACH
 EOF
