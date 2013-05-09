@@ -68,11 +68,16 @@ curl --silent --max-time 60 --location "${NEWRELIC_URL}" | tar xz
 	ARCH=x64
 	PHPAPI=20090626
 	PHPZTS=""
-	rm -f $MODULEDIR/newrelic.so
+	#rm -f $MODULEDIR/newrelic.so
 	#ln -s /app/newrelic/x64/newrelic-${PHPAPI}${PHPZTS}.so ${MODULEDIR}/newrelic.so
-	ln -s /app/newrelic/x64/newrelic-20090626.so /app/php/ext/newrelic.so
+	ln -s -f -T /app/newrelic/x64/newrelic-20090626.so /app/php/ext/newrelic.so
+	echo PWD: `pwd`
+    echo *************************
+	find /app
+    echo *************************
 
 cat >>/app/www/00_newrelic_default.ini <<EOF
+extension=newrelic.so
 newrelic.license="${NEW_RELIC_LICENSE_KEY}"
 newrelic.appname="${NEW_RELIC_APP_NAME}"
 EOF
