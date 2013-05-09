@@ -52,7 +52,6 @@ cp $LP_DIR/conf/php.ini php
 mkdir -p bin
 ln -s /app/php/bin/php bin/php
 
-
 # newrelic
 # echo "-----> Installing newrelic"
 NEWRELIC_URL="${S3_URL}/${NEWRELIC_FILE}"
@@ -64,7 +63,7 @@ curl --silent --max-time 60 --location "${NEWRELIC_URL}" | tar xz
 #if [ -f /app/newrelic/NEWRELIC_VERSION ]; then
 
 # link /app/newrelic/x64/newrelic-20090626.so
-	MODULEDIR=php/ext
+	MODULEDIR=php/lib/php/extensions/no-debug-non-zts-20090626
 	ARCH=x64
 	PHPAPI=20090626
 	PHPZTS=""
