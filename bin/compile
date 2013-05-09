@@ -74,12 +74,12 @@ if [ -f /app/newrelic/NEWRELIC_VERSION ]; then
 #cat >>/app/www/00_newrelic_default.ini <<EOF
 #EOF
 
-cat >/app/conf/newrelic.cfg <<EOF
+cat >>/app/newrelic/newrelic.cfg <<EOF
 pidfile=/app/newrelic/newrelic-daemon.pid
 logfile=/app/newrelic/newrelic-daemon.log
 ssl=true
 EOF
-/app/bin/newrelic-daemon -c /app/conf/newrelic.cfg
+/app/bin/newrelic-daemon -c /app/newrelic/newrelic.cfg
 
 #	sed -i "s|REPLACE_WITH_REAL_KEY|${NEW_RELIC_LICENSE_KEY}|g" /app/www/*newrelic*.ini
 	# Deploy agent
