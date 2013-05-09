@@ -89,8 +89,8 @@ EOF
 cat >bin/newrelic-license <<EOF
 #!/usr/bin/env bash
 
-sed -i "s|REPLACE_NEW_RELIC_APP_NAME|${NEW_RELIC_APP_NAME}|g" php/php.ini
-sed -i "s|REPLACE_NEW_RELIC_LICENSE_KEY|${NEW_RELIC_LICENSE_KEY}|g" php/php.ini
+sed -i "s|REPLACE_NEW_RELIC_APP_NAME|${NEW_RELIC_APP_NAME}|g" /app/php/php.ini
+sed -i "s|REPLACE_NEW_RELIC_LICENSE_KEY|${NEW_RELIC_LICENSE_KEY}|g" /app/php/php.ini
 EOF
 chmod +x bin/newrelic-license
 #	sed -i "s|REPLACE_WITH_REAL_KEY|${NEW_RELIC_LICENSE_KEY}|g" /app/www/*newrelic*.ini
