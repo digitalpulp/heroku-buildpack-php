@@ -12,8 +12,6 @@ PHP_PATH="php"
 
 NEWRELIC_VERSION=3.2.5.147
 NEWRELIC_FILE="newrelic-${NEWRELIC_VERSION}-heroku.tar.gz"
-NEW_RELIC_LICENSE_KEY=$(echo $NEW_RELIC_LICENSE_KEY)
-NEW_RELIC_APP_NAME=$(echo $NEW_RELIC_APP_NAME)
 
 S3_BUCKET=dp-heroku
 S3_URL="https://s3.amazonaws.com/${S3_BUCKET}"
@@ -74,12 +72,11 @@ curl --silent --max-time 60 --location "${NEWRELIC_URL}" | tar xz
 	#ln -s -f -T /app/newrelic/x64/newrelic-20090626.so php/ext/newrelic.so
 
 
-echo ${NEW_RELIC_LICENSE_KEY}
 cat >>php/php.ini <<EOF
 #load New Relic
 extension=newrelic.so
-newrelic.appname=${NEW_RELIC_APP_NAME}
-newrelic.license=${NEW_RELIC_LICENSE_KEY}
+newrelic.appname=REPLACE_NEW_RELIC_APP_NAME
+newrelic.license=REPLACE_NEW_RELIC_LICENSE_KEY
 EOF
 
 cat >>newrelic/newrelic.cfg <<EOF
@@ -88,6 +85,14 @@ logfile=/app/newrelic/newrelic-daemon.log
 ssl=true
 EOF
 
+# Overwrite compiled license setter
+cat >bin/newrelic-license <<EOF
+#!/usr/bin/env bash
+
+sed -i "s|REPLACE_NEW_RELIC_APP_NAME|${NEW_RELIC_APP_NAME}|g" php/php.ini
+sed -i "s|REPLACE_NEW_RELIC_LICENSE_KEY|${NEW_RELIC_LICENSE_KEY}|g" php/php.ini
+EOF
+chmod +x bin/newrelic-license
 #	sed -i "s|REPLACE_WITH_REAL_KEY|${NEW_RELIC_LICENSE_KEY}|g" /app/www/*newrelic*.ini
 	# Deploy agent
 #	cp -f /app/local/newrelic/agent/x64/newrelic-`/app/vendor/php/bin/phpize --version | grep "Zend Module Api No" | tr -d ' ' | cut -f 2 -d ':'`.so `/app/vendor/php/bin/php-config --extension-dir`/newrelic.so
@@ -108,7 +113,14 @@ tail -F /app/apache/logs/error_log &
 tail -F /app/apache/logs/access_log &
 export LD_LIBRARY_PATH=/app/php/ext
 export PHP_INI_SCAN_DIR=/app/www
+
+# Set NEWRELIC key
+if [ "\${NEW_RELIC_LICENSE_KEY}" -a -x "/app/bin/newrelic-license" ]; then
+	/app/bin/newrelic-license
+fi
+
 /app/bin/newrelic-daemon -c /app/newrelic/newrelic.cfg -d error
+
 echo "Launching apache"
 exec /app/apache/bin/httpd -DNO_DETACH
 EOF
