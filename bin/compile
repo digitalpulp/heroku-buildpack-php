@@ -61,6 +61,33 @@ echo ${NEWRELIC_URL}
 curl --silent --max-time 60 --location "${NEWRELIC_URL}" | tar xz
 
 # fi
+if [ -f /app/newrelic/NEWRELIC_VERSION ]; then
+
+# link /app/newrelic/x64/newrelic-20090626.so
+	MODULEDIR=/app/php/ext
+	ARCH=x64
+	PHPAPI=20090626
+	PHPZTS=""
+	rm -f $MODULEDIR/newrelic.so
+	ln -s /app/newrelic/x64/newrelic-${PHPAPI}${PHPZTS}.so ${MODULEDIR}/newrelic.so
+
+#cat >>/app/www/00_newrelic_default.ini <<EOF
+#EOF
+
+cat >/app/conf/newrelic.cfg <<EOF
+pidfile=/app/newrelic/newrelic-daemon.pid
+logfile=/app/newrelic/newrelic-daemon.log
+ssl=true
+EOF
+/app/bin/newrelic-daemon -c /app/conf/newrelic.cfg
+
+#	sed -i "s|REPLACE_WITH_REAL_KEY|${NEW_RELIC_LICENSE_KEY}|g" /app/www/*newrelic*.ini
+	# Deploy agent
+#	cp -f /app/local/newrelic/agent/x64/newrelic-`/app/vendor/php/bin/phpize --version | grep "Zend Module Api No" | tr -d ' ' | cut -f 2 -d ':'`.so `/app/vendor/php/bin/php-config --extension-dir`/newrelic.so
+#	rm -Rf /app/local/newrelic/agent/
+# else
+# 	sed -i "s|REPLACE_WITH_REAL_KEY|${NEW_RELIC_LICENSE_KEY}|g" /app/local/etc/newrelic.cfg
+fi
 
 
 # output boot.sh
