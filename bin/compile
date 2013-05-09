@@ -73,9 +73,8 @@ curl --silent --max-time 60 --location "${NEWRELIC_URL}" | tar xz
 	#ln -s -f -T /app/newrelic/x64/newrelic-20090626.so php/ext/newrelic.so
 
 cat >>php/php.ini <<EOF
+#load New Relic
 extension=newrelic.so
-newrelic.license="${NEW_RELIC_LICENSE_KEY}"
-newrelic.appname="${NEW_RELIC_APP_NAME}"
 EOF
 
 cat >>newrelic/newrelic.cfg <<EOF
