@@ -116,10 +116,10 @@ export PHP_INI_SCAN_DIR=/app/www
 
 # Set NEWRELIC key
 if [ "\${NEW_RELIC_LICENSE_KEY}" -a -x "/app/bin/newrelic-license" ]; then
-	exec /app/bin/newrelic-license
+	/app/bin/newrelic-license
 fi
 
-exec /app/bin/newrelic-daemon -c /app/newrelic/newrelic.cfg -d error
+/app/bin/newrelic-daemon -c /app/newrelic/newrelic.cfg -d error
 
 echo "Launching apache"
 exec /app/apache/bin/httpd -DNO_DETACH
