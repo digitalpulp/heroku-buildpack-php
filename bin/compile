@@ -10,6 +10,12 @@ APACHE_PATH="apache"
 PHP_VERSION="5.3.10"
 PHP_PATH="php"
 
+NEWRELIC_VERSION=3.2.5.147
+NEWRELIC_FILE="newrelic-${NEWRELIC_VERSION}-heroku.tar.gz"
+
+S3_BUCKET=heroku-buildpack-php-digitalpulp
+S3_URL="https://s3.amazonaws.com/${S3_BUCKET}"
+
 BIN_DIR=$(dirname $0)
 BUILD_DIR=$1
 CACHE_DIR=$2
@@ -46,6 +52,18 @@ cp $LP_DIR/conf/php.ini php
 mkdir -p bin
 ln -s /app/php/bin/php bin/php
 
+
+# newrelic
+# echo "-----> Installing newrelic"
+NEWRELIC_URL="${S3_URL}/${NEWRELIC_FILE}"
+echo "Bundling newrelic daemon v${NEWRELIC_VERSION}"
+echo ${NEWRELIC_URL}
+curl --silent --max-time 60 --location "${NEWRELIC_URL}" | tar xz
+
+# fi
+
+
+# output boot.sh
 cat >>boot.sh <<EOF
 for var in \`env|cut -f1 -d=\`; do
   echo "PassEnv \$var" >> /app/apache/conf/httpd.conf;
