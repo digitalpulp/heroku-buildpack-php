@@ -61,7 +61,7 @@ echo ${NEWRELIC_URL}
 curl --silent --max-time 60 --location "${NEWRELIC_URL}" | tar xz
 
 # fi
-if [ -f /app/newrelic/NEWRELIC_VERSION ]; then
+#if [ -f /app/newrelic/NEWRELIC_VERSION ]; then
 
 # link /app/newrelic/x64/newrelic-20090626.so
 	MODULEDIR=/app/php/ext
@@ -90,7 +90,7 @@ EOF
 #	rm -Rf /app/local/newrelic/agent/
 # else
 # 	sed -i "s|REPLACE_WITH_REAL_KEY|${NEW_RELIC_LICENSE_KEY}|g" /app/local/etc/newrelic.cfg
-fi
+#fi
 
 
 # output boot.sh
