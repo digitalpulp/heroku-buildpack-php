@@ -11,7 +11,8 @@ PHP_VERSION="5.3.10"
 PHP_PATH="php"
 
 NEWRELIC_VERSION=3.2.5.147
-NEWRELIC_FILE="newrelic-${NEWRELIC_VERSION}-heroku.tar.gz"
+#NEWRELIC_FILE="newrelic-${NEWRELIC_VERSION}-heroku.tar.gz"
+NEWRELIC_FILE="newrelic-php5-3.4.5.167-linux.tar.gz"
 
 S3_BUCKET=dp-heroku
 S3_URL="https://s3.amazonaws.com/${S3_BUCKET}"
