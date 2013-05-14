@@ -91,20 +91,13 @@ sed -i "s|REPLACE_NEW_RELIC_APP_NAME|\${NEW_RELIC_APP_NAME}|g" /app/php/php.ini
 sed -i "s|REPLACE_NEW_RELIC_LICENSE_KEY|\${NEW_RELIC_LICENSE_KEY}|g" /app/php/php.ini
 EOF
 chmod +x bin/newrelic-license
-#	sed -i "s|REPLACE_WITH_REAL_KEY|${NEW_RELIC_LICENSE_KEY}|g" /app/www/*newrelic*.ini
-	# Deploy agent
-#	cp -f /app/local/newrelic/agent/x64/newrelic-`/app/vendor/php/bin/phpize --version | grep "Zend Module Api No" | tr -d ' ' | cut -f 2 -d ':'`.so `/app/vendor/php/bin/php-config --extension-dir`/newrelic.so
-#	rm -Rf /app/local/newrelic/agent/
-# else
-# 	sed -i "s|REPLACE_WITH_REAL_KEY|${NEW_RELIC_LICENSE_KEY}|g" /app/local/etc/newrelic.cfg
-#fi
-
 
 # output boot.sh
 cat >>boot.sh <<EOF
 for var in \`env|cut -f1 -d=\`; do
   echo "PassEnv \$var" >> /app/apache/conf/httpd.conf;
 done
+
 touch /app/apache/logs/error_log
 touch /app/apache/logs/access_log
 touch /app/newrelic/newrelic-daemon.log
