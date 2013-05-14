@@ -59,19 +59,13 @@ echo "Bundling newrelic daemon v${NEWRELIC_VERSION}"
 echo ${NEWRELIC_URL}
 curl --silent --max-time 60 --location "${NEWRELIC_URL}" | tar xz
 
-# fi
-#if [ -f /app/newrelic/NEWRELIC_VERSION ]; then
+MODULEDIR=php/lib/php/extensions/no-debug-non-zts-20090626
+ARCH=x64
+PHPAPI=20090626
+PHPZTS=""
+mv newrelic/x64/newrelic-${PHPAPI}${PHPZTS}.so ${MODULEDIR}/newrelic.so
 
-# link /app/newrelic/x64/newrelic-20090626.so
-	MODULEDIR=php/lib/php/extensions/no-debug-non-zts-20090626
-	ARCH=x64
-	PHPAPI=20090626
-	PHPZTS=""
-	#rm -f $MODULEDIR/newrelic.so
-	mv newrelic/x64/newrelic-${PHPAPI}${PHPZTS}.so ${MODULEDIR}/newrelic.so
-	#ln -s -f -T /app/newrelic/x64/newrelic-20090626.so php/ext/newrelic.so
-
-
+# Append New Relic conf to php ini
 cat >>php/php.ini <<EOF
 #load New Relic
 extension=newrelic.so
