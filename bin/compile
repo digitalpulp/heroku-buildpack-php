@@ -94,6 +94,11 @@ chmod +x bin/newrelic-license
 
 # output boot.sh
 cat >>boot.sh <<EOF
+# set a default env variable for ACCESSFILENAME
+if [ ! ${ACCESSFILENAME:+x} ]; then
+ACCESSFILENAME='.htaccess'
+export ACCESSFILENAME
+fi
 for var in \`env|cut -f1 -d=\`; do
   echo "PassEnv \$var" >> /app/apache/conf/httpd.conf;
 done

@@ -11,6 +11,12 @@ The config files are bundled with the build pack itself:
 * conf/httpd.conf
 * conf/php.ini
 
+Apache .htaccess files
+----------------------
+The apache configuration has a setting, AccessFileName, that tells the web server the name of the override file. This is usually set to ".htaccess".
+This build pack will use the ACCESSFILENAME environment variable to determine the name of the override files. We do this to follow our normal pattern of different override files for each environment in the development process (e.g. Production, Staging, Development).
+
+The default value is .htaccess
 
 Pre-compiling binaries
 ----------------------
