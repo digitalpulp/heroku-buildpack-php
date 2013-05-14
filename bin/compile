@@ -120,8 +120,6 @@ if [ "\${NEW_RELIC_LICENSE_KEY}" -a -x "/app/bin/newrelic-license" ]; then
 	/app/bin/newrelic-license
 fi
 
-##/app/bin/newrelic-daemon -c /app/newrelic/newrelic.cfg -d error
-
 echo "Launching apache"
 exec /app/apache/bin/httpd -DNO_DETACH
 EOF
