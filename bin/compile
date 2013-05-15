@@ -95,7 +95,7 @@ chmod +x bin/newrelic-license
 # output boot.sh
 cat >>boot.sh <<EOF
 # set a default env variable for ACCESSFILENAME
-if [ ! ${ACCESSFILENAME:+x} ]; then
+if [ ! \${ACCESSFILENAME:+x} ]; then
 ACCESSFILENAME='.htaccess'
 export ACCESSFILENAME
 fi
