@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 
 ## Match DirectoryIndex in apache conf
-if [ -f $1/index.html ]; then
-  echo "HTML" && exit 0
-elif [ -f $1/index.php ]; then
-  echo "PHP" && exit 0
-else
-  echo "no" && exit 1
-fi
+ls -1 $1/*.php > /dev/null 2>&1 || ls -1 $1/*.html > /dev/null 2>&1
 
+if [ $? -eq 0 ]; then
+	echo "HTML/PHP" && exit 0
+else
+	echo "no" && exit 1
+fi
