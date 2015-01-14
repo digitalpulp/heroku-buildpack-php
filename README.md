@@ -3,6 +3,27 @@ Apache+PHP build pack
 
 This is a build pack bundling PHP and Apache for Heroku apps.
 
+Update / Warning
+----------------
+
+This buildpack currently has issues when serving to newly-created apps: deploying works, but the app can't start and the following message is logged (visible using `heroku logs`):
+
+```
+httpd: Syntax error on line 58 of /app/apache/conf/httpd.conf: Cannot load /app/apache/modules/libphp5.so into server: libssl.so.0.9.8: cannot open shared object file: No such file or directory
+```
+
+This is because [libssl0.9.8 is no longer present in `cedar-14`](https://devcenter.heroku.com/articles/cedar-ubuntu-packages), which is the new default [Heroku stack](https://devcenter.heroku.com/articles/stack). I'm unsure as to when this change was implemented, but I just bumped my head in this a few days ago.
+
+There are two workarounds:
+
+* Remain using the `cedar` stack
+
+* Use the official Heroku-supported PHP buildpack, [heroku-buildpack-php](https://github.com/heroku/heroku-buildpack-php), but it lacks [the customizations we made](https://github.com/digitalpulp/heroku-buildpack-php/compare/heroku:master...master) (`ACCESSFILENAME` and the NewRelic stuff). Note that we forked from heroku-buildpack-php, but that was a long a while ago (back in 2013; the last commit from ddollar was Dec 2012) and the buildpack has undergone substantial changes since then.
+
+I have not yet decided a clear path forward on this. Just documenting for the masses. -JSB 2015-01-14
+
+
+
 Configuration
 -------------
 
